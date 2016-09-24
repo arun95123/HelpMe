@@ -171,6 +171,7 @@ public class MainActivity extends AppCompatActivity implements
                     phoneIntent.setData(Uri.parse("tel:" + ph));
                     try{
                         startActivity(phoneIntent);
+
                     }
 
                     catch (android.content.ActivityNotFoundException ex){
