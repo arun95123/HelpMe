@@ -4,6 +4,9 @@ import android.Manifest;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.KeyguardManager;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.admin.DevicePolicyManager;
 import android.content.ComponentName;
 import android.content.Context;
@@ -19,6 +22,8 @@ import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
@@ -89,9 +94,20 @@ public class MainActivity extends AppCompatActivity implements
         }).on("emergency", new Emitter.Listener() {
 
             @Override
-            public void call(Object... args) {
+            public void call(final Object... args) {
                 runOnUiThread(new Runnable() {
                     public void run() {
+                        JSONObject j=(JSONObject)args[0];
+                       /* try {
+                           // JSONObject temp=j.getJSONObject("result");
+                           // JSONArray arr=temp.getJSONArray("user");
+                            //JSONObject tem=arr.getJSONObject(0);
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }*/
+
+                        Notify();
 
                         // do something
                         //mListData is the array adapter
@@ -318,7 +334,33 @@ public class MainActivity extends AppCompatActivity implements
     }
 
 
+    private void Notify(){
 
+        NotificationManager manager;
+        Notification myNotication;
+        manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        Intent intent = new Intent("in.helpme.helpme.MainActivity");
+
+        PendingIntent pendingIntent = PendingIntent.getActivity(MainActivity.this, 1, intent, 0);
+
+        Notification.Builder builder = new Notification.Builder(MainActivity.this);
+
+        builder.setAutoCancel(false);
+        builder.setTicker("this is ticker text");
+        builder.setContentTitle("WhatsApp Notification");
+        builder.setContentText("You have a new message");
+        builder.setSmallIcon(R.drawable.logo);
+        builder.setContentIntent(pendingIntent);
+        builder.setOngoing(true);
+        builder.setSubText("This is subtext...");   //API level 16
+        builder.setNumber(100);
+        builder.build();
+
+        myNotication = builder.getNotification();
+        manager.notify(11, myNotication);
+
+
+    }
 
 
 
