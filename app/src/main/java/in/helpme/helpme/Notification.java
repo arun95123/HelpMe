@@ -70,6 +70,11 @@ public class Notification extends Activity {
             @Override
             public void onClick(View view) {
 
+                Intent i=new Intent(Notification.this,Maps.class);
+                i.putExtra("lat",lati);
+                i.putExtra("lon",longi);
+                startActivity(i);
+
             }
         });
 
