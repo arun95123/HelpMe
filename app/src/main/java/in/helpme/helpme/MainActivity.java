@@ -347,7 +347,7 @@ public class MainActivity extends AppCompatActivity implements
         NotificationManager manager;
         Notification myNotication;
         manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        Intent intent = new Intent("in.helpme.helpme.Notification");
+        Intent intent = new Intent(MainActivity.this, in.helpme.helpme.Notification.class);
         intent.putExtra("name",name);
         intent.putExtra("phone",phno);
         intent.putExtra("emergency_id",eid);
@@ -365,7 +365,7 @@ public class MainActivity extends AppCompatActivity implements
         builder.setSmallIcon(R.drawable.logo);
         builder.setContentIntent(pendingIntent);
         builder.setOngoing(true);
-        builder.setSubText("This is subtext...");   //API level 16
+        builder.setSubText("will you help him?");   //API level 16
         builder.setNumber(100);
         builder.build();
 
