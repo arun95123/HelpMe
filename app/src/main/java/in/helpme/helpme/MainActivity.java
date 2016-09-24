@@ -91,21 +91,21 @@ public class MainActivity extends AppCompatActivity implements
 
             }
 
-        }).on("emergency", new Emitter.Listener() {
+        }).on("taramani_emergency", new Emitter.Listener() {
 
             @Override
             public void call(final Object... args) {
                 runOnUiThread(new Runnable() {
                     public void run() {
                         JSONObject j=(JSONObject)args[0];
-                       /* try {
-                           // JSONObject temp=j.getJSONObject("result");
-                           // JSONArray arr=temp.getJSONArray("user");
-                            //JSONObject tem=arr.getJSONObject(0);
+                       try {
+                            JSONObject temp=j.getJSONObject("result");
+                           JSONArray arr=temp.getJSONArray("user");
+                            JSONObject tem=arr.getJSONObject(0);
 
                         } catch (JSONException e) {
                             e.printStackTrace();
-                        }*/
+                        }
 
                         Notify();
 
