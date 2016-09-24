@@ -178,6 +178,7 @@ public class MainActivity extends AppCompatActivity implements
                     }
                     NotifyUser(n,ph);
 
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
