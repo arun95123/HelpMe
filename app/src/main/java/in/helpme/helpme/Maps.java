@@ -71,11 +71,13 @@ public class Maps extends FragmentActivity implements OnMapReadyCallback {
 
         // Add a marker in Sydney and move the camera
         LatLng sydney = new LatLng(Double.valueOf(lat),Double.valueOf(lon) );
+        mMap.getUiSettings().setMapToolbarEnabled(true);
+
         mMap.addMarker(new MarkerOptions().position(sydney).title("Ayiyooo Kapathunga"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(Double.valueOf(lat), Double.valueOf(lon)), 16.0f));
 
-        String route=makeURL(latitude,longitude,Double.valueOf(lat),Double.valueOf(lon));
+        String route=makeURL(13.0,80.0,Double.valueOf(lat),Double.valueOf(lon));
         new connectAsyncTask(route).execute();
 
 

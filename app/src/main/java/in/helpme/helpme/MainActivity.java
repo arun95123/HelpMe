@@ -171,17 +171,7 @@ public class MainActivity extends AppCompatActivity implements
                      r=temp.getString("role");
                      a=temp.getString("age");
 
-                    Intent phoneIntent = new Intent(Intent.ACTION_CALL);
-                    phoneIntent.setData(Uri.parse("tel:" + ph));
-                    try{
-                        startActivity(phoneIntent);
-
-                    }
-
-                    catch (android.content.ActivityNotFoundException ex){
-                        Toast.makeText(getApplicationContext(),"yourActivity is not founded",Toast.LENGTH_SHORT).show();
-                    }
-                    NotifyUser();
+                                       NotifyUser();
 
 
                 } catch (JSONException e) {
