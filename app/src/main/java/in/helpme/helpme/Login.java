@@ -103,7 +103,6 @@ public class Login extends AppCompatActivity {
                                 SharedPreferences pref = getSharedPreferences("MyPref", Context.MODE_PRIVATE);
                                 SharedPreferences.Editor editor = pref.edit();
                                 Username = jsonobject.getString("username");
-                                Password = jsonobject.getString("password");
                                 Name = jsonobject.getString("name");
                                 Phone = jsonobject.getString("phoneNo");
                                 Sex = jsonobject.getString("sex");
@@ -111,7 +110,6 @@ public class Login extends AppCompatActivity {
                                 Age = jsonobject.getString("age");
 
                                 editor.putString("username", Username);
-                                editor.putString("password", Password);
                                 editor.putString("name", Name);
                                 editor.putString("phone", Phone);
                                 editor.putString("sex", Sex);
