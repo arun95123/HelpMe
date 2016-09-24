@@ -97,6 +97,7 @@ public class IncomingSms extends BroadcastReceiver {
                             params1.add(new BasicNameValuePair("lat", ""+latitude));
                             params1.add(new BasicNameValuePair("long", ""+longitude));
                             params1.add(new BasicNameValuePair("home", "taramani"));
+                            params1.add(new BasicNameValuePair("net", "true"));
 
                             jsonobject = jParser1.makeHttpRequest(emerurl, "POST", params1);
 
@@ -163,6 +164,7 @@ public class IncomingSms extends BroadcastReceiver {
                         params1.add(new BasicNameValuePair("lat", ""+text[2]));
                         params1.add(new BasicNameValuePair("long", ""+text[3]));
                         params1.add(new BasicNameValuePair("home", "taramani"));
+                        params1.add(new BasicNameValuePair("net", "false"));
 
                         jsonobject = jParser1.makeHttpRequest(emerurl, "POST", params1);
 

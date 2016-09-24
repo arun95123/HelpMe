@@ -87,6 +87,7 @@ public class emergency extends AppCompatActivity {
             params1.add(new BasicNameValuePair("lat", ""+latitude));
             params1.add(new BasicNameValuePair("long", ""+longitude));
             params1.add(new BasicNameValuePair("home", "taramani"));
+            params1.add(new BasicNameValuePair("net", "true"));
 
             jsonobject = jParser1.makeHttpRequest(emerurl, "POST", params1);
 
