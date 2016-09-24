@@ -26,6 +26,7 @@ import java.util.List;
 public class Login extends AppCompatActivity {
 
     static String Password = "";
+    static String Token="";
     static String Username = "";
     static String Name = "";
     static String Phone = "";
@@ -56,6 +57,7 @@ public class Login extends AppCompatActivity {
             Sex = pref.getString("sex", null);
             Role = pref.getString("role", null);
             Age = pref.getString("age", null);
+            Token=pref.getString("token",null);
             Intent i = new Intent(Login.this, MainActivity.class);
             startActivity(i);
 
@@ -108,6 +110,7 @@ public class Login extends AppCompatActivity {
                                 Sex = jsonobject.getString("sex");
                                 Role = jsonobject.getString("role");
                                 Age = jsonobject.getString("age");
+                                Token=jsonobject.getString("token");
 
                                 editor.putString("username", Username);
                                 editor.putString("name", Name);
@@ -115,6 +118,7 @@ public class Login extends AppCompatActivity {
                                 editor.putString("sex", Sex);
                                 editor.putString("role", Role);
                                 editor.putString("age", Age);
+                                editor.putString("token", Token);
 
                                 editor.putString("isloggedin", "true");
                                 editor.commit();
