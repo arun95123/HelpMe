@@ -116,8 +116,12 @@ public class IncomingSms extends BroadcastReceiver {
                                 e.printStackTrace();
                             }
                         }else{
-                            Intent j = new Intent(context,Sendsms.class);
+                            Toast.makeText(context,"elsed",Toast.LENGTH_SHORT).show();
+                            Intent j = new Intent();
+                            j.setClass(context, Sendsms.class);
+                            j.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             context.startActivity(j);
+
 
 
                         }
