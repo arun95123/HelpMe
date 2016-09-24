@@ -1,17 +1,27 @@
 package in.helpme.helpme;
 
 import android.Manifest;
+import android.app.Activity;
+import android.app.ActivityManager;
+import android.app.KeyguardManager;
+import android.app.admin.DevicePolicyManager;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
+import android.os.PowerManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.HashMap;
 
 import edu.cmu.pocketsphinx.Assets;
@@ -19,6 +29,9 @@ import edu.cmu.pocketsphinx.Hypothesis;
 import edu.cmu.pocketsphinx.RecognitionListener;
 import edu.cmu.pocketsphinx.SpeechRecognizer;
 import edu.cmu.pocketsphinx.SpeechRecognizerSetup;
+import io.socket.client.IO;
+import io.socket.client.Socket;
+import io.socket.emitter.Emitter;
 
 import static android.widget.Toast.makeText;
 
@@ -40,11 +53,53 @@ public class MainActivity extends AppCompatActivity implements
     private SpeechRecognizer recognizer;
     private HashMap<String, Integer> captions;
 
+
+
+    static final int RESULT_ENABLE = 1;
+    Socket socket;
+
+    DevicePolicyManager deviceManger;
+    ActivityManager activityManager;
+    ComponentName compName;
+
+
+
+
     @Override
     public void onCreate(Bundle state) {
         super.onCreate(state);
 
         // Prepare the data for UI
+
+
+        try {
+            socket = IO.socket("http://localhost");
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+        socket.on(Socket.EVENT_CONNECT, new Emitter.Listener() {
+
+            @Override
+            public void call(Object... args) {
+                socket.emit("foo", "hi");
+                socket.disconnect();
+            }
+
+        }).on("event", new Emitter.Listener() {
+
+            @Override
+            public void call(Object... args) {}
+
+        }).on(Socket.EVENT_DISCONNECT, new Emitter.Listener() {
+
+            @Override
+            public void call(Object... args) {}
+
+        });
+        socket.connect();
+
+
+
         captions = new HashMap<String, Integer>();
         captions.put(KWS_SEARCH, R.string.kws_caption);
         captions.put(MENU_SEARCH, R.string.menu_caption);
@@ -126,9 +181,25 @@ public class MainActivity extends AppCompatActivity implements
         if (hypothesis == null)
             return;
 
+
         String text = hypothesis.getHypstr();
-        if (text.equals(KEYPHRASE))
+        if (text.equals(KEYPHRASE)) {
             switchSearch(MENU_SEARCH);
+            KeyguardManager km = (KeyguardManager) getSystemService(Context.KEYGUARD_SERVICE);
+            final KeyguardManager.KeyguardLock kl = km .newKeyguardLock("MyKeyguardLock");
+            kl.disableKeyguard();
+
+            PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
+            PowerManager.WakeLock wakeLock = pm.newWakeLock(PowerManager.FULL_WAKE_LOCK
+                    | PowerManager.ACQUIRE_CAUSES_WAKEUP
+                    | PowerManager.ON_AFTER_RELEASE, "MyWakeLock");
+
+            if ((wakeLock != null) &&           // we have a WakeLock
+                    (wakeLock.isHeld() == false)) {  // but we don't hold it
+                wakeLock.acquire();
+
+            }
+                    }
         else if (text.equals(DIGITS_SEARCH))
             switchSearch(DIGITS_SEARCH);
         else if (text.equals(PHONE_SEARCH))
@@ -226,4 +297,10 @@ public class MainActivity extends AppCompatActivity implements
     public void onTimeout() {
         switchSearch(KWS_SEARCH);
     }
+
+
+
+
+
+
 }
