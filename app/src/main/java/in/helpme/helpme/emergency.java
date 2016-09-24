@@ -38,7 +38,7 @@ public class emergency extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_emergency);
-        mTextView=(TextView) findViewById(R.id.timer);
+
         cancel  =(Button)findViewById(R.id.cancel);
 
 
