@@ -32,7 +32,7 @@ public class emergency extends AppCompatActivity {
         setContentView(R.layout.activity_emergency);
         SharedPreferences pref = getSharedPreferences("MyPref", Context.MODE_PRIVATE);
         gps=new GPSTracker(emergency.this);
-        Phone = pref.getString("phone", null);
+        Phone = pref.getString("helpline", null);
         Token=pref.getString("token",null);
         final ConnectionDetector cd = new ConnectionDetector(emergency.this);
         if (cd.isConnectingToInternet()) {
