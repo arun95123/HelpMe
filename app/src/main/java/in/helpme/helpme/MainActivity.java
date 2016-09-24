@@ -100,14 +100,22 @@ public class MainActivity extends AppCompatActivity implements
                         JSONObject j=(JSONObject)args[0];
                        try {
                             JSONObject temp=j.getJSONObject("result");
-                           JSONArray arr=temp.getJSONArray("user");
+                            JSONArray arr=temp.getJSONArray("user");
                             JSONObject tem=arr.getJSONObject(0);
+                            String  name=tem.getString("name");
+                            String phone=tem.getString("phoneNo");
+                            String emergency_id=temp.getString("emergency_id");
+                            String lat =temp.getString("lat");
+                            String lon =temp.getString("long");
+                            Notify(name,phone,emergency_id,lat,lon);
+
+
 
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
 
-                        Notify();
+
 
                         // do something
                         //mListData is the array adapter
@@ -334,21 +342,26 @@ public class MainActivity extends AppCompatActivity implements
     }
 
 
-    private void Notify(){
+    private void Notify(String name,String phno,String eid,String lati,String longi){
 
         NotificationManager manager;
         Notification myNotication;
         manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        Intent intent = new Intent("in.helpme.helpme.MainActivity");
+        Intent intent = new Intent("in.helpme.helpme.Notification");
+        intent.putExtra("name",name);
+        intent.putExtra("phone",phno);
+        intent.putExtra("emergency_id",eid);
+        intent.putExtra("lat",lati);
+        intent.putExtra("long",longi);
 
         PendingIntent pendingIntent = PendingIntent.getActivity(MainActivity.this, 1, intent, 0);
 
         Notification.Builder builder = new Notification.Builder(MainActivity.this);
 
         builder.setAutoCancel(false);
-        builder.setTicker("this is ticker text");
-        builder.setContentTitle("WhatsApp Notification");
-        builder.setContentText("You have a new message");
+        builder.setTicker("A person near by needs help");
+        builder.setContentTitle("Emergency Need Help");
+        builder.setContentText("A person near by needs help");
         builder.setSmallIcon(R.drawable.logo);
         builder.setContentIntent(pendingIntent);
         builder.setOngoing(true);
