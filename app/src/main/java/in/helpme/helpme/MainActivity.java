@@ -15,6 +15,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.CountDownTimer;
 import android.os.PowerManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -69,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements
     static String emergency_id;
     static String lat ;
     static String lon;
-
+    Thread thread;
 
 
     static final int RESULT_ENABLE = 1;
@@ -165,21 +166,42 @@ public class MainActivity extends AppCompatActivity implements
                 try {
                     JSONObject temp= j.getJSONObject("result").getJSONArray("user").getJSONObject(0);
                     String n=temp.getString("name");
-                    String ph=temp.getString("phoneNo");
+                    final String ph=temp.getString("phoneNo");
 
-                    Intent phoneIntent = new Intent(Intent.ACTION_CALL);
-                    phoneIntent.setData(Uri.parse("tel:" + ph));
-                    try{
-                        startActivity(phoneIntent);
 
-                    }
-
-                    catch (android.content.ActivityNotFoundException ex){
-                        Toast.makeText(getApplicationContext(),"yourActivity is not founded",Toast.LENGTH_SHORT).show();
-                    }
                     NotifyUser(n,ph);
 
 
+                    thread=  new Thread(){
+                        @Override
+                        public void run(){
+                            try {
+                                synchronized(this){
+                                           wait(3000);
+                                    Intent phoneIntent = new Intent(Intent.ACTION_CALL);
+                                    phoneIntent.setData(Uri.parse("tel:" + ph));
+                                    try{
+                                        if(emergency.poll==0)
+                                            startActivity(phoneIntent);
+                                        else
+                                            emergency.poll=0;
+
+                                    }
+
+                                    catch (android.content.ActivityNotFoundException ex){
+                                        Toast.makeText(getApplicationContext(),"yourActivity is not found",Toast.LENGTH_SHORT).show();
+                                    }
+
+                                }
+                            }
+                            catch(InterruptedException ex){
+                            }
+
+                            // TODO
+                        }
+                    };
+
+                    thread.start();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
