@@ -19,6 +19,8 @@ import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONObject;
+
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -73,27 +75,49 @@ public class MainActivity extends AppCompatActivity implements
 
 
         try {
-            socket = IO.socket("http://localhost");
+            socket = IO.socket("http://54.200.231.130:3003");
         } catch (URISyntaxException e) {
+            Toast.makeText(MainActivity.this, "Hello ", Toast.LENGTH_SHORT).show();
             e.printStackTrace();
+
         }
-        socket.on(Socket.EVENT_CONNECT, new Emitter.Listener() {
+
+        socket.on(io.socket.client.Socket.EVENT_CONNECT, new Emitter.Listener() {
 
             @Override
             public void call(Object... args) {
-                socket.emit("foo", "hi");
-                socket.disconnect();
+                Toast.makeText(MainActivity.this, "test ", Toast.LENGTH_SHORT).show();
             }
 
-        }).on("event", new Emitter.Listener() {
+        }).on("android", new Emitter.Listener() {
+
 
             @Override
-            public void call(Object... args) {}
+            public void call(Object... args) {
 
-        }).on(Socket.EVENT_DISCONNECT, new Emitter.Listener() {
+                Toast.makeText(MainActivity.this, "Hello 123 ", Toast.LENGTH_SHORT).show();
+
+
+                //final String message = obj.toString();
+
+            }
+
+
+        }).on("android_copy", new Emitter.Listener() {
+
 
             @Override
-            public void call(Object... args) {}
+            public void call(Object... args) {
+
+                Toast.makeText(MainActivity.this, "llo ", Toast.LENGTH_SHORT).show();
+                            }
+
+
+        }).on(io.socket.client.Socket.EVENT_DISCONNECT, new Emitter.Listener() {
+
+            @Override
+            public void call(Object... args) {
+            }
 
         });
         socket.connect();
