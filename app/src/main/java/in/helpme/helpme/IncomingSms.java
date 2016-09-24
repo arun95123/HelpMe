@@ -141,6 +141,60 @@ public class IncomingSms extends BroadcastReceiver {
 
 
                     }
+                    else if(message.contains("100")){
+
+                        String text[]=message.split(",");
+                        JSONObject jsonobject;
+                        final JSONParser jParser1 = new JSONParser();
+                        List<NameValuePair> params1 = new ArrayList<NameValuePair>();
+                        if(gps.canGetLocation()) {
+
+                            latitude = Double.valueOf(text[2]);
+                            longitude = Double.valueOf(text[3]);
+                        }else{
+
+                            gps.showSettingsAlert();
+                        }
+
+                        Geocoder geocoder;
+                        List<Address> addresses = null;
+                        geocoder = new Geocoder(context, Locale.getDefault());
+
+                        try {
+                            addresses = geocoder.getFromLocation(latitude, longitude, 1); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
+
+                        //Get the current locality and send it
+                        String address = addresses.get(0).getAddressLine(0);
+
+
+                        params1.add(new BasicNameValuePair("token", text[1]));
+                        params1.add(new BasicNameValuePair("lat", ""+text[2]));
+                        params1.add(new BasicNameValuePair("long", ""+text[3]));
+                        params1.add(new BasicNameValuePair("home", "taramani"));
+
+                        jsonobject = jParser1.makeHttpRequest(emerurl, "POST", params1);
+
+                        try {
+                            if (jsonobject != null) {
+
+                                String result = jsonobject.getString("success");
+
+                                if (result.equals("true")) {
+
+                                    Toast.makeText(context,"Success",Toast.LENGTH_LONG).show();
+                                }
+
+                            }
+                        }catch (Exception e) {
+                            Log.e("Error", e.getMessage());
+                            e.printStackTrace();
+                        }
+
+                    }
 
 
 
