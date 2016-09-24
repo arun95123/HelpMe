@@ -1,7 +1,9 @@
 package in.helpme.helpme;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.support.v4.app.FragmentActivity;
@@ -29,11 +31,16 @@ public class Maps extends FragmentActivity implements OnMapReadyCallback {
     String lat,lon;
     GPSTracker gps;
     Double latitude,longitude;
+     String eno;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+
+        SharedPreferences pref = getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+         eno=pref.getString("emergencynumber",null);
+
         Intent myIntent = getIntent();
          lat = myIntent.getStringExtra("lat");
          lon = myIntent.getStringExtra("lon");
@@ -73,7 +80,7 @@ public class Maps extends FragmentActivity implements OnMapReadyCallback {
         LatLng sydney = new LatLng(Double.valueOf(lat),Double.valueOf(lon) );
         mMap.getUiSettings().setMapToolbarEnabled(true);
 
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Ayiyooo Kapathunga"));
+        mMap.addMarker(new MarkerOptions().position(sydney).title("Emergency Contact"+eno));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(Double.valueOf(lat), Double.valueOf(lon)), 16.0f));
 

@@ -44,6 +44,7 @@ public class Register extends AppCompatActivity {
         final EditText sex = (EditText) findViewById(R.id.sex);
         final EditText role = (EditText) findViewById(R.id.role);
         final EditText age = (EditText) findViewById(R.id.age);
+        final EditText eno = (EditText) findViewById(R.id.emergencyno);
 
 
         Button register = (Button) findViewById(R.id.register);
@@ -71,6 +72,7 @@ public class Register extends AppCompatActivity {
                 String Sex=sex.getText().toString();
                 String Role=role.getText().toString();
                 String Age=age.getText().toString();
+                String Eno=eno.getText().toString();
 
 
                 Geocoder geocoder;
@@ -100,7 +102,7 @@ public class Register extends AppCompatActivity {
                     params1.add(new BasicNameValuePair("role", Role));
                     params1.add(new BasicNameValuePair("age", Age));
                     params1.add(new BasicNameValuePair("home", community));
-
+                    params1.add(new BasicNameValuePair("emergencynumber", Eno));
 
 
                     jsonobject = jParser1.makeHttpRequest(registerurl, "POST", params1);

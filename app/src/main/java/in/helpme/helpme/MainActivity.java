@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity implements
 
 
     static String  name,n,ph,sex,a,r;
-    static String phone;
+    static String phone,s,age;
     static String emergency_id;
     static String lat ;
     static String lon;
@@ -121,6 +121,8 @@ public class MainActivity extends AppCompatActivity implements
                             JSONObject tem=arr.getJSONObject(0);
                               name=tem.getString("name");
                              phone=tem.getString("phoneNo");
+                             age=tem.getString("age");
+                             s=tem.getString("sex");
                              emergency_id=temp.getString("emergency_id");
                              lat =temp.getString("lat");
                              lon =temp.getString("long");

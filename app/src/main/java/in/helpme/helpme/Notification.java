@@ -41,12 +41,16 @@ public class Notification extends Activity {
 
         TextView disname=(TextView)findViewById(R.id.disname);
         TextView disphone=(TextView)findViewById(R.id.disphone);
+        TextView dissex=(TextView)findViewById(R.id.dissex);
+        TextView disage=(TextView)findViewById(R.id.disage);
         Button accept=(Button)findViewById(R.id.accept);
         Button reject=(Button)findViewById(R.id.reject);
         Button location=(Button)findViewById(R.id.location);
 
         disname.setText(MainActivity.name);
         disphone.setText(MainActivity.phone);
+        dissex.setText(MainActivity.s);
+        disage.setText(MainActivity.age);
 
         accept.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,6 +85,16 @@ public class Notification extends Activity {
                 Intent i=new Intent(Notification.this,Maps.class);
                 i.putExtra("lat",lati);
                 i.putExtra("lon",longi);
+                startActivity(i);
+
+            }
+        });
+
+        reject.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent i=new Intent(Notification.this,MainActivity.class);
                 startActivity(i);
 
             }

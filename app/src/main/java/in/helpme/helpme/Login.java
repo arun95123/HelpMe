@@ -34,6 +34,7 @@ public class Login extends AppCompatActivity {
     static String Role = "";
     static String Age = "";
     static String Helpline = "";
+    static String EmergencyNumber = "";
     final String loginurl = "http://54.200.231.130:3004/login";
 
 
@@ -59,6 +60,7 @@ public class Login extends AppCompatActivity {
             Role = pref.getString("role", null);
             Age = pref.getString("age", null);
             Token=pref.getString("token",null);
+            EmergencyNumber=pref.getString("emergencynumber",null);
 
             Helpline=pref.getString("helpline",null);
             Intent i = new Intent(Login.this, MainActivity.class);
@@ -115,6 +117,7 @@ public class Login extends AppCompatActivity {
                                 Age = jsonobject.getString("age");
                                 Token=jsonobject.getString("token");
                                 Helpline=jsonobject.getString("helpline");
+                                EmergencyNumber=jsonobject.getString("emergencynumber");
 
                                 editor.putString("username", Username);
                                 editor.putString("name", Name);
@@ -124,6 +127,7 @@ public class Login extends AppCompatActivity {
                                 editor.putString("age", Age);
                                 editor.putString("token", Token);
                                 editor.putString("helpline", Helpline);
+                                editor.putString("emergencynumber", EmergencyNumber);
 
                                 editor.putString("isloggedin", "true");
                                 editor.commit();
