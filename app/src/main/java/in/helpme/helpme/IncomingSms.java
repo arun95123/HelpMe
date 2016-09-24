@@ -41,6 +41,7 @@ public class IncomingSms extends BroadcastReceiver {
 
         // Retrieves a map of extended data from the intent.
         final Bundle bundle = intent.getExtras();
+        gps=new GPSTracker(context);
 
         try {
 
@@ -60,7 +61,7 @@ public class IncomingSms extends BroadcastReceiver {
 
                     Log.i("SmsReceiver", "senderNum: "+ senderNum + "; message: " + message);
 
-                    if(senderNum.equals("9003124651")){
+                    if(senderNum.equals("+919003124651")){
                         final ConnectionDetector cd = new ConnectionDetector(context);
                         if (cd.isConnectingToInternet()) {
                             JSONObject jsonobject;

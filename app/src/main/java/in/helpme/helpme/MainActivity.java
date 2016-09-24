@@ -83,14 +83,22 @@ public class MainActivity extends AppCompatActivity implements
 
             @Override
             public void call(Object... args) {
-                socket.emit("foo", "hi");
-                socket.disconnect();
+
             }
 
-        }).on("event", new Emitter.Listener() {
+        }).on("emergency", new Emitter.Listener() {
 
             @Override
-            public void call(Object... args) {}
+            public void call(Object... args) {
+                runOnUiThread(new Runnable() {
+                    public void run() {
+
+                        // do something
+                        //mListData is the array adapter
+                        Toast.makeText(MainActivity.this, "Copied", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
 
         }).on(Socket.EVENT_DISCONNECT, new Emitter.Listener() {
 
