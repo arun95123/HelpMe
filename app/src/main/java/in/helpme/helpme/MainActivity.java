@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity implements
 
 
 
-    static String  name;
+    static String  name,n,ph,sex,a,r;
     static String phone;
     static String emergency_id;
     static String lat ;
@@ -164,8 +164,11 @@ public class MainActivity extends AppCompatActivity implements
                 JSONObject j=(JSONObject)args[0];
                 try {
                     JSONObject temp= j.getJSONObject("result").getJSONArray("user").getJSONObject(0);
-                    String n=temp.getString("name");
-                    String ph=temp.getString("phoneNo");
+                     n=temp.getString("name");
+                     ph=temp.getString("phoneNo");
+                     sex=temp.getString("sex");
+                     r=temp.getString("role");
+                     a=temp.getString("age");
 
                     Intent phoneIntent = new Intent(Intent.ACTION_CALL);
                     phoneIntent.setData(Uri.parse("tel:" + ph));
@@ -177,7 +180,7 @@ public class MainActivity extends AppCompatActivity implements
                     catch (android.content.ActivityNotFoundException ex){
                         Toast.makeText(getApplicationContext(),"yourActivity is not founded",Toast.LENGTH_SHORT).show();
                     }
-                    NotifyUser(n,ph);
+                    NotifyUser();
 
 
                 } catch (JSONException e) {
@@ -460,12 +463,12 @@ public class MainActivity extends AppCompatActivity implements
 
 
     }
-    private void NotifyUser(String n,String ph){
+    private void NotifyUser(){
 
         NotificationManager manager;
         Notification myNotication;
         manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        Intent intent = new Intent(MainActivity.this, in.helpme.helpme.MainActivity.class);
+        Intent intent = new Intent(MainActivity.this, in.helpme.helpme.profile.class);
 
 
         PendingIntent pendingIntent = PendingIntent.getActivity(MainActivity.this, 1, intent, 0);

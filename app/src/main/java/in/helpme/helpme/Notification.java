@@ -63,6 +63,10 @@ public class Notification extends Activity {
 
 
                 jsonobject = jParser1.makeHttpRequest(accepturl, "POST", params1);
+                Intent i=new Intent(Notification.this,Maps.class);
+                i.putExtra("lat",lati);
+                i.putExtra("lon",longi);
+                startActivity(i);
 
 
 
