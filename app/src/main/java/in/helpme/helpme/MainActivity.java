@@ -15,7 +15,6 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.CountDownTimer;
 import android.os.PowerManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -65,12 +64,12 @@ public class MainActivity extends AppCompatActivity implements
 
 
 
-    static String  name;
+    static String  name,n,ph,sex,a,r;
     static String phone;
     static String emergency_id;
     static String lat ;
     static String lon;
-    Thread thread;
+
 
 
     static final int RESULT_ENABLE = 1;
@@ -165,43 +164,25 @@ public class MainActivity extends AppCompatActivity implements
                 JSONObject j=(JSONObject)args[0];
                 try {
                     JSONObject temp= j.getJSONObject("result").getJSONArray("user").getJSONObject(0);
-                    String n=temp.getString("name");
-                    final String ph=temp.getString("phoneNo");
+                     n=temp.getString("name");
+                     ph=temp.getString("phoneNo");
+                     sex=temp.getString("sex");
+                     r=temp.getString("role");
+                     a=temp.getString("age");
+
+                    Intent phoneIntent = new Intent(Intent.ACTION_CALL);
+                    phoneIntent.setData(Uri.parse("tel:" + ph));
+                    try{
+                        startActivity(phoneIntent);
+
+                    }
+
+                    catch (android.content.ActivityNotFoundException ex){
+                        Toast.makeText(getApplicationContext(),"yourActivity is not founded",Toast.LENGTH_SHORT).show();
+                    }
+                    NotifyUser();
 
 
-                    NotifyUser(n,ph);
-
-
-                    thread=  new Thread(){
-                        @Override
-                        public void run(){
-                            try {
-                                synchronized(this){
-                                           wait(3000);
-                                    Intent phoneIntent = new Intent(Intent.ACTION_CALL);
-                                    phoneIntent.setData(Uri.parse("tel:" + ph));
-                                    try{
-                                        if(emergency.poll==0)
-                                            startActivity(phoneIntent);
-                                        else
-                                            emergency.poll=0;
-
-                                    }
-
-                                    catch (android.content.ActivityNotFoundException ex){
-                                        Toast.makeText(getApplicationContext(),"yourActivity is not found",Toast.LENGTH_SHORT).show();
-                                    }
-
-                                }
-                            }
-                            catch(InterruptedException ex){
-                            }
-
-                            // TODO
-                        }
-                    };
-
-                    thread.start();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -482,12 +463,12 @@ public class MainActivity extends AppCompatActivity implements
 
 
     }
-    private void NotifyUser(String n,String ph){
+    private void NotifyUser(){
 
         NotificationManager manager;
         Notification myNotication;
         manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        Intent intent = new Intent(MainActivity.this, in.helpme.helpme.MainActivity.class);
+        Intent intent = new Intent(MainActivity.this, in.helpme.helpme.profile.class);
 
 
         PendingIntent pendingIntent = PendingIntent.getActivity(MainActivity.this, 1, intent, 0);
