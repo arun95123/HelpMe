@@ -116,25 +116,9 @@ public class IncomingSms extends BroadcastReceiver {
                                 e.printStackTrace();
                             }
                         }else{
+                            Intent j = new Intent(context,Sendsms.class);
+                            context.startActivity(j);
 
-                            gps=new GPSTracker(context);
-
-                            if(gps.canGetLocation()) {
-
-                                latitude = gps.getLatitude();
-                                longitude = gps.getLongitude();
-                            }else{
-
-                                gps.showSettingsAlert();
-                            }
-
-                            SharedPreferences pref = context.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
-
-                            String Phone = pref.getString("helpline", null);
-                            Token=pref.getString("token",null);
-                            SmsManager smsManager = SmsManager.getDefault();
-                            String message2= "100," + Token + "," +  latitude + "," + longitude;
-                            smsManager.sendTextMessage("+91" + Phone, null, message, null, null);
 
                         }
 
