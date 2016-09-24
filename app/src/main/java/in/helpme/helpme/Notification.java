@@ -20,9 +20,12 @@ import java.util.List;
  * Created by mvenkta on 9/24/2016.
  */
 
+
+
 public class Notification extends Activity {
 
     final String accepturl = "http://54.200.231.130:3004/emergency/resolved";
+    static int going=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,20 +45,21 @@ public class Notification extends Activity {
         Button reject=(Button)findViewById(R.id.reject);
         Button location=(Button)findViewById(R.id.location);
 
-        disname.setText(name);
-        disphone.setText(phno);
+        disname.setText(MainActivity.name);
+        disphone.setText(MainActivity.phone);
 
         accept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 SharedPreferences pref = getSharedPreferences("MyPref", Context.MODE_PRIVATE);
                 String tok=pref.getString("token",null);
+                going=1;
 
                 JSONObject jsonobject;
                 final JSONParser jParser1 = new JSONParser();
                 List<NameValuePair> params1 = new ArrayList<NameValuePair>();
                 params1.add(new BasicNameValuePair("token", tok));
-                params1.add(new BasicNameValuePair("emergency_id", eid));
+                params1.add(new BasicNameValuePair("emergency_id", MainActivity.emergency_id));
 
 
                 jsonobject = jParser1.makeHttpRequest(accepturl, "POST", params1);

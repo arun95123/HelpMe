@@ -11,7 +11,9 @@ import android.app.admin.DevicePolicyManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.PowerManager;
 import android.support.v4.app.ActivityCompat;
@@ -62,6 +64,14 @@ public class MainActivity extends AppCompatActivity implements
 
 
 
+    static String  name;
+    static String phone;
+    static String emergency_id;
+    static String lat ;
+    static String lon;
+
+
+
     static final int RESULT_ENABLE = 1;
     Socket socket;
 
@@ -69,12 +79,17 @@ public class MainActivity extends AppCompatActivity implements
     ActivityManager activityManager;
     ComponentName compName;
 
-
+    String role,username;
 
 
     @Override
     public void onCreate(Bundle state) {
         super.onCreate(state);
+
+
+        SharedPreferences pref = getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+         role=pref.getString("role",null);
+         username=pref.getString("username",null);
 
         // Prepare the data for UI
 
@@ -91,7 +106,8 @@ public class MainActivity extends AppCompatActivity implements
 
             }
 
-        }).on("taramani_emergency", new Emitter.Listener() {
+        }).on("taramani_emergency_"+role, new Emitter.Listener() {
+
 
             @Override
             public void call(final Object... args) {
@@ -102,12 +118,12 @@ public class MainActivity extends AppCompatActivity implements
                             JSONObject temp=j.getJSONObject("result");
                             JSONArray arr=temp.getJSONArray("user");
                             JSONObject tem=arr.getJSONObject(0);
-                            String  name=tem.getString("name");
-                            String phone=tem.getString("phoneNo");
-                            String emergency_id=temp.getString("emergency_id");
-                            String lat =temp.getString("lat");
-                            String lon =temp.getString("long");
-                            Notify(name,phone,emergency_id,lat,lon);
+                              name=tem.getString("name");
+                             phone=tem.getString("phoneNo");
+                             emergency_id=temp.getString("emergency_id");
+                             lat =temp.getString("lat");
+                             lon =temp.getString("long");
+                            Notify();
 
 
 
@@ -128,6 +144,46 @@ public class MainActivity extends AppCompatActivity implements
 
             @Override
             public void call(Object... args) {}
+
+        }).on("taramani_emergency_abort_"+role, new Emitter.Listener() {
+
+            @Override
+            public void call(Object... args) {
+                JSONObject j=(JSONObject)args[0];
+                if(in.helpme.helpme.Notification.going!=1)
+                NotifyAbort();
+                in.helpme.helpme.Notification.going=0;
+
+
+            }
+
+        }).on(username+"_emergency_abort", new Emitter.Listener() {
+
+            @Override
+            public void call(Object... args) {
+                JSONObject j=(JSONObject)args[0];
+                try {
+                    JSONObject temp= j.getJSONObject("result").getJSONArray("user").getJSONObject(0);
+                    String n=temp.getString("name");
+                    String ph=temp.getString("phoneNo");
+
+                    Intent phoneIntent = new Intent(Intent.ACTION_CALL);
+                    phoneIntent.setData(Uri.parse("tel:" + ph));
+                    try{
+                        startActivity(phoneIntent);
+                    }
+
+                    catch (android.content.ActivityNotFoundException ex){
+                        Toast.makeText(getApplicationContext(),"yourActivity is not founded",Toast.LENGTH_SHORT).show();
+                    }
+                    NotifyUser(n,ph);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
+            }
 
         });
         socket.connect();
@@ -342,17 +398,17 @@ public class MainActivity extends AppCompatActivity implements
     }
 
 
-    private void Notify(String name,String phno,String eid,String lati,String longi){
+    private void Notify(){
 
         NotificationManager manager;
         Notification myNotication;
         manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         Intent intent = new Intent(MainActivity.this, in.helpme.helpme.Notification.class);
         intent.putExtra("name",name);
-        intent.putExtra("phone",phno);
-        intent.putExtra("emergency_id",eid);
-        intent.putExtra("lat",lati);
-        intent.putExtra("long",longi);
+        intent.putExtra("phone",phone);
+        intent.putExtra("emergency_id",emergency_id);
+        intent.putExtra("lat",lat);
+        intent.putExtra("long",lon);
 
         PendingIntent pendingIntent = PendingIntent.getActivity(MainActivity.this, 1, intent, 0);
 
@@ -374,7 +430,62 @@ public class MainActivity extends AppCompatActivity implements
 
 
     }
+    private void NotifyAbort(){
 
+        NotificationManager manager;
+        Notification myNotication;
+        manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        Intent intent = new Intent(MainActivity.this, in.helpme.helpme.MainActivity.class);
+
+
+        PendingIntent pendingIntent = PendingIntent.getActivity(MainActivity.this, 1, intent, 0);
+
+        Notification.Builder builder = new Notification.Builder(MainActivity.this);
+
+        builder.setAutoCancel(false);
+        builder.setTicker("Volenteer going");
+        builder.setContentTitle("Emergency Being supressed");
+        builder.setContentText("you may choose not ot go");
+        builder.setSmallIcon(R.drawable.logo);
+        builder.setContentIntent(pendingIntent);
+        builder.setOngoing(false);
+        builder.setSubText("");   //API level 16
+        builder.setNumber(100);
+        builder.build();
+
+        myNotication = builder.getNotification();
+        manager.notify(11, myNotication);
+
+
+    }
+    private void NotifyUser(String n,String ph){
+
+        NotificationManager manager;
+        Notification myNotication;
+        manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        Intent intent = new Intent(MainActivity.this, in.helpme.helpme.MainActivity.class);
+
+
+        PendingIntent pendingIntent = PendingIntent.getActivity(MainActivity.this, 1, intent, 0);
+
+        Notification.Builder builder = new Notification.Builder(MainActivity.this);
+
+        builder.setAutoCancel(false);
+        builder.setTicker("Volenteer coming");
+        builder.setContentTitle(n);
+        builder.setContentText(ph);
+        builder.setSmallIcon(R.drawable.logo);
+        builder.setContentIntent(pendingIntent);
+        builder.setOngoing(false);
+        builder.setSubText("");   //API level 16
+        builder.setNumber(100);
+        builder.build();
+
+        myNotication = builder.getNotification();
+        manager.notify(11, myNotication);
+
+
+    }
 
 
 }
