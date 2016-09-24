@@ -77,47 +77,25 @@ public class MainActivity extends AppCompatActivity implements
         try {
             socket = IO.socket("http://54.200.231.130:3003");
         } catch (URISyntaxException e) {
-            Toast.makeText(MainActivity.this, "Hello ", Toast.LENGTH_SHORT).show();
             e.printStackTrace();
-
         }
-
-        socket.on(io.socket.client.Socket.EVENT_CONNECT, new Emitter.Listener() {
+        socket.on(Socket.EVENT_CONNECT, new Emitter.Listener() {
 
             @Override
             public void call(Object... args) {
-                Toast.makeText(MainActivity.this, "test ", Toast.LENGTH_SHORT).show();
+                socket.emit("foo", "hi");
+                socket.disconnect();
             }
 
-        }).on("android", new Emitter.Listener() {
-
-
-            @Override
-            public void call(Object... args) {
-
-                Toast.makeText(MainActivity.this, "Hello 123 ", Toast.LENGTH_SHORT).show();
-
-
-                //final String message = obj.toString();
-
-            }
-
-
-        }).on("android_copy", new Emitter.Listener() {
-
+        }).on("event", new Emitter.Listener() {
 
             @Override
-            public void call(Object... args) {
+            public void call(Object... args) {}
 
-                Toast.makeText(MainActivity.this, "llo ", Toast.LENGTH_SHORT).show();
-                            }
-
-
-        }).on(io.socket.client.Socket.EVENT_DISCONNECT, new Emitter.Listener() {
+        }).on(Socket.EVENT_DISCONNECT, new Emitter.Listener() {
 
             @Override
-            public void call(Object... args) {
-            }
+            public void call(Object... args) {}
 
         });
         socket.connect();
@@ -208,7 +186,7 @@ public class MainActivity extends AppCompatActivity implements
 
         String text = hypothesis.getHypstr();
         if (text.equals(KEYPHRASE)) {
-            switchSearch(MENU_SEARCH);
+            switchSearch(KEYPHRASE);
             KeyguardManager km = (KeyguardManager) getSystemService(Context.KEYGUARD_SERVICE);
             final KeyguardManager.KeyguardLock kl = km .newKeyguardLock("MyKeyguardLock");
             kl.disableKeyguard();
@@ -224,12 +202,7 @@ public class MainActivity extends AppCompatActivity implements
 
             }
                     }
-        else if (text.equals(DIGITS_SEARCH))
-            switchSearch(DIGITS_SEARCH);
-        else if (text.equals(PHONE_SEARCH))
-            switchSearch(PHONE_SEARCH);
-        else if (text.equals(FORECAST_SEARCH))
-            switchSearch(FORECAST_SEARCH);
+
 
 
     }
@@ -263,9 +236,7 @@ public class MainActivity extends AppCompatActivity implements
         recognizer.stop();
 
         // If we are not spotting, start listening with timeout (10000 ms or 10 seconds).
-        if (searchName.equals(KWS_SEARCH))
-            recognizer.startListening(searchName);
-        else
+
             recognizer.startListening(searchName, 10000);
 
         String caption = getResources().getString(captions.get(searchName));
