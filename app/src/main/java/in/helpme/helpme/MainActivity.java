@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity implements
     private static final String MENU_SEARCH = "menu";
 
     /* Keyword we are looking for to activate menu */
-    private static final String KEYPHRASE = "help me";
+    private static final String KEYPHRASE = "oh mighty computer";
 
     /* Used to handle permission request */
     private static final int PERMISSIONS_REQUEST_RECORD_AUDIO = 1;
@@ -183,10 +183,10 @@ public class MainActivity extends AppCompatActivity implements
         if (hypothesis == null)
             return;
 
-
         String text = hypothesis.getHypstr();
         if (text.equals(KEYPHRASE)) {
-            switchSearch(KEYPHRASE);
+            switchSearch(MENU_SEARCH);
+
             KeyguardManager km = (KeyguardManager) getSystemService(Context.KEYGUARD_SERVICE);
             final KeyguardManager.KeyguardLock kl = km .newKeyguardLock("MyKeyguardLock");
             kl.disableKeyguard();
@@ -201,11 +201,20 @@ public class MainActivity extends AppCompatActivity implements
                 wakeLock.acquire();
 
             }
+
+
+
+        }
+
+
+
+
+
                     }
 
 
 
-    }
+
 
     /**
      * This callback is called when we stop the recognizer.
@@ -236,7 +245,9 @@ public class MainActivity extends AppCompatActivity implements
         recognizer.stop();
 
         // If we are not spotting, start listening with timeout (10000 ms or 10 seconds).
-
+        if (searchName.equals(KWS_SEARCH))
+            recognizer.startListening(searchName);
+        else
             recognizer.startListening(searchName, 10000);
 
         String caption = getResources().getString(captions.get(searchName));
