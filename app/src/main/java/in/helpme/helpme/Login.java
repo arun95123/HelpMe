@@ -33,6 +33,7 @@ public class Login extends AppCompatActivity {
     static String Sex = "";
     static String Role = "";
     static String Age = "";
+    static String Helpline = "";
     final String loginurl = "http://54.200.231.130:3004/login";
 
 
@@ -111,6 +112,7 @@ public class Login extends AppCompatActivity {
                                 Role = jsonobject.getString("role");
                                 Age = jsonobject.getString("age");
                                 Token=jsonobject.getString("token");
+                                Helpline=jsonobject.getString("helpline");
 
                                 editor.putString("username", Username);
                                 editor.putString("name", Name);
@@ -119,6 +121,7 @@ public class Login extends AppCompatActivity {
                                 editor.putString("role", Role);
                                 editor.putString("age", Age);
                                 editor.putString("token", Token);
+                                editor.putString("helpline", Helpline);
 
                                 editor.putString("isloggedin", "true");
                                 editor.commit();
