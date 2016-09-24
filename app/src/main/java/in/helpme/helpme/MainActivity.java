@@ -199,7 +199,12 @@ public class MainActivity extends AppCompatActivity implements
             if ((wakeLock != null) &&           // we have a WakeLock
                     (wakeLock.isHeld() == false)) {  // but we don't hold it
                 wakeLock.acquire();
+                Intent i=new Intent(MainActivity.this,emergency.class);
+                startActivity(i);
 
+            }else{
+                Intent i=new Intent(MainActivity.this,emergency.class);
+                startActivity(i);
             }
 
 

@@ -59,6 +59,8 @@ public class Login extends AppCompatActivity {
             Role = pref.getString("role", null);
             Age = pref.getString("age", null);
             Token=pref.getString("token",null);
+
+            Helpline=pref.getString("helpline",null);
             Intent i = new Intent(Login.this, MainActivity.class);
             startActivity(i);
 
