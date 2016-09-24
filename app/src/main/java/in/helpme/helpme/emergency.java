@@ -1,13 +1,19 @@
 package in.helpme.helpme;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.location.Address;
 import android.location.Geocoder;
+import android.net.Uri;
+import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.telephony.SmsManager;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.apache.http.NameValuePair;
@@ -25,11 +31,23 @@ public class emergency extends AppCompatActivity {
     final String emerurl = "http://54.200.231.130:3004/emergency";
     String Phone;
     private String Token;
-
+    TextView mTextView;
+    Button cancel;
+    static int poll=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_emergency);
+        mTextView=(TextView) findViewById(R.id.timer);
+        cancel  =(Button)findViewById(R.id.cancel);
+
+
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                poll=1;
+            }
+        });
         SharedPreferences pref = getSharedPreferences("MyPref", Context.MODE_PRIVATE);
         gps=new GPSTracker(emergency.this);
         Phone = pref.getString("helpline", null);
@@ -109,6 +127,8 @@ public class emergency extends AppCompatActivity {
 
 
 
-
     }
+
+
+
 }

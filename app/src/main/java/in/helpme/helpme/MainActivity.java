@@ -52,6 +52,7 @@ public class MainActivity extends AppCompatActivity implements
     private static final String DIGITS_SEARCH = "digits";
     private static final String PHONE_SEARCH = "phones";
     private static final String MENU_SEARCH = "menu";
+    Thread thread;
 
     /* Keyword we are looking for to activate menu */
     private static final String KEYPHRASE = "oh mighty computer";
