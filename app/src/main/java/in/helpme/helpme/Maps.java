@@ -47,7 +47,7 @@ public class Maps extends FragmentActivity implements OnMapReadyCallback {
         LatLng sydney = new LatLng(Double.valueOf(lat),Double.valueOf(lon) );
         mMap.addMarker(new MarkerOptions().position(sydney).title("Ayiyooo Kapathunga"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(Double.valueOf(lat), Double.valueOf(lon)), 12.0f));
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(Double.valueOf(lat), Double.valueOf(lon)), 16.0f));
 
     }
 }

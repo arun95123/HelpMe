@@ -364,7 +364,7 @@ public class MainActivity extends AppCompatActivity implements
         builder.setContentText("A person near by needs help");
         builder.setSmallIcon(R.drawable.logo);
         builder.setContentIntent(pendingIntent);
-        builder.setOngoing(true);
+        builder.setOngoing(false);
         builder.setSubText("will you help him?");   //API level 16
         builder.setNumber(100);
         builder.build();
