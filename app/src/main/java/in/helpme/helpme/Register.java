@@ -83,13 +83,7 @@ public class Register extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
-                String address = addresses.get(0).getAddressLine(0); // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
-                String city = addresses.get(0).getLocality();
-                String state = addresses.get(0).getAdminArea();
-                String country = addresses.get(0).getCountryName();
-                String postalCode = addresses.get(0).getPostalCode();
-                String knownName = addresses.get(0).getFeatureName();
-
+                String community="taramani";
 
                 final ConnectionDetector cd = new ConnectionDetector(Register.this);
                 if (cd.isConnectingToInternet()) {
@@ -105,6 +99,7 @@ public class Register extends AppCompatActivity {
                     params1.add(new BasicNameValuePair("sex", Sex));
                     params1.add(new BasicNameValuePair("role", Role));
                     params1.add(new BasicNameValuePair("age", Age));
+                    params1.add(new BasicNameValuePair("home", community));
 
 
 
