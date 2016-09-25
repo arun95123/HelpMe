@@ -29,21 +29,28 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Login">
+        <activity android:name=".Login"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Maps"/>
+        <activity android:name=".Maps"
+            android:screenOrientation="portrait"/>
 
-        <activity android:name=".MainActivity" />
-        <activity android:name=".Notification"/>
-        <activity android:name=".Register" />
-        <activity android:name=".Sendsms" />
+        <activity android:name=".MainActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Notification"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Register"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Sendsms"
+            android:screenOrientation="portrait"/>
 
-        <receiver android:name=".IncomingSms">
+        <receiver android:name=".IncomingSms"
+            >
             <intent-filter>
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" />
             </intent-filter>
@@ -53,8 +60,10 @@
 
 
 
-        <activity android:name=".emergency" />
-        <activity android:name=".profile"/>
+        <activity android:name=".emergency"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".profile"
+            android:screenOrientation="portrait"/>
         <receiver android:name=".TelephonyReceiver" >
             <intent-filter>
                 <action android:name="android.intent.action.PHONE_STATE" />

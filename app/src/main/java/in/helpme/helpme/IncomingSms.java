@@ -184,6 +184,18 @@ public class IncomingSms extends BroadcastReceiver {
                             e.printStackTrace();
                         }
 
+                    }else if(message.contains("Help is On")){
+                       String temp[]=message.split(",");
+                        MainActivity.n=temp[2];
+                        MainActivity.ph=temp[1];
+                        MainActivity.sex=temp[3];
+                         MainActivity.r=temp[4];
+                         MainActivity.a=temp[5];
+                        Intent j = new Intent();
+                        j.setClass(context, profile.class);
+                        j.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        context.startActivity(j);
+
                     }
 
 
