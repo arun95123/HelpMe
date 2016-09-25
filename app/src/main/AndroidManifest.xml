@@ -18,6 +18,7 @@
     <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
 
     <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
 
 
 
@@ -54,6 +55,15 @@
 
         <activity android:name=".emergency" />
         <activity android:name=".profile"/>
+        <receiver android:name=".TelephonyReceiver" >
+            <intent-filter>
+                <action android:name="android.intent.action.PHONE_STATE" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.NEW_OUTGOING_CALL" />
+            </intent-filter>
+        </receiver>
+
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").

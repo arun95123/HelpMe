@@ -33,9 +33,9 @@ public class Notification extends Activity {
         setContentView(R.layout.activity_notify);
 
         Intent myIntent = getIntent();
-        String name = myIntent.getStringExtra("name");
-        String phno = myIntent.getStringExtra("phone");
-        final String eid = myIntent.getStringExtra("emergency_id");
+        //String name = myIntent.getStringExtra("name");
+        //String phno = myIntent.getStringExtra("phone");
+        //final String eid = myIntent.getStringExtra("emergency_id");
         final String lati = myIntent.getStringExtra("lat");
         final String longi = myIntent.getStringExtra("long");
 
@@ -44,13 +44,15 @@ public class Notification extends Activity {
         TextView dissex=(TextView)findViewById(R.id.dissex);
         TextView disage=(TextView)findViewById(R.id.disage);
         Button accept=(Button)findViewById(R.id.accept);
+        TextView disemer=(TextView)findViewById(R.id.emer);
         Button reject=(Button)findViewById(R.id.reject);
         Button location=(Button)findViewById(R.id.location);
 
-        disname.setText(MainActivity.name);
-        disphone.setText(MainActivity.phone);
-        dissex.setText(MainActivity.s);
-        disage.setText(MainActivity.age);
+        disname.setText("  Name: " + MainActivity.name);
+        disphone.setText("  Phone No: " + MainActivity.phone);
+        dissex.setText("  Sex: " + MainActivity.s);
+        disage.setText("  Age: " + MainActivity.age);
+        disemer.setText("  Emergency Contact: " + MainActivity.emergencycontact);
 
         accept.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,8 +70,8 @@ public class Notification extends Activity {
 
                 jsonobject = jParser1.makeHttpRequest(accepturl, "POST", params1);
                 Intent i=new Intent(Notification.this,Maps.class);
-                i.putExtra("lat",lati);
-                i.putExtra("lon",longi);
+                i.putExtra("lat",MainActivity.lat);
+                i.putExtra("lon",MainActivity.lon);
                 startActivity(i);
 
 

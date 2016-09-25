@@ -1,7 +1,9 @@
 package in.helpme.helpme;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.media.AudioManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -31,7 +33,11 @@ int call=0;
             @Override
             public void onClick(View v) {
            call=1;
+
+                ((TextView)findViewById(R.id.lable)).setText("Call to helper canceled");
             }
+
+
         });
 
         name.setText("  Name: " +MainActivity.n);
@@ -46,9 +52,10 @@ int call=0;
             public void run(){
                 try {
                     synchronized(this){
-                        wait(3000);
+                        wait(5000);
 
                         Intent phoneIntent = new Intent(Intent.ACTION_CALL);
+
                         phoneIntent.setData(Uri.parse("tel:" + MainActivity.ph));
                         try{
                             if(call==0)
@@ -59,7 +66,7 @@ int call=0;
                         }
 
                         catch (android.content.ActivityNotFoundException ex){
-                            Toast.makeText(getApplicationContext(),"yourActivity is not founded",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(),"Placing call to helper",Toast.LENGTH_SHORT).show();
                         }
 
                     }

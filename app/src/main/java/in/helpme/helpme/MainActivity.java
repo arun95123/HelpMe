@@ -13,6 +13,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.PowerManager;
@@ -20,6 +22,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.NotificationCompat;
 import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -67,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements
 
     static String  name,n,ph,sex,a,r;
     static String phone,s,age;
-    static String emergency_id;
+    static String emergency_id,emergencycontact;
     static String lat ;
     static String lon;
 
@@ -123,10 +126,14 @@ public class MainActivity extends AppCompatActivity implements
                              phone=tem.getString("phoneNo");
                              age=tem.getString("age");
                              s=tem.getString("sex");
+                           emergencycontact=tem.getString("emergencynumber");
                              emergency_id=temp.getString("emergency_id");
                              lat =temp.getString("lat");
                              lon =temp.getString("long");
+
                             Notify();
+
+
 
 
 
@@ -138,7 +145,7 @@ public class MainActivity extends AppCompatActivity implements
 
                         // do something
                         //mListData is the array adapter
-                        Toast.makeText(MainActivity.this, "Copied", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(MainActivity.this, "Contacting People for aid..", Toast.LENGTH_SHORT).show();
                     }
                 });
             }
@@ -315,7 +322,7 @@ public class MainActivity extends AppCompatActivity implements
 
         if (hypothesis != null) {
             String text = hypothesis.getHypstr();
-            makeText(getApplicationContext(), text, Toast.LENGTH_SHORT).show();
+           // makeText(getApplicationContext(), text, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -421,10 +428,23 @@ public class MainActivity extends AppCompatActivity implements
         builder.setOngoing(false);
         builder.setSubText("will you help him?");   //API level 16
         builder.setNumber(100);
+
+
+
+        builder.setLights(Color.BLUE, 500, 500);
+        long[] pattern = {500,500,500,500,500,500,500,500,500};
+        builder.setVibrate(pattern);
+        Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        builder.setSound(alarmSound);
+
+
+
+
         builder.build();
 
         myNotication = builder.getNotification();
         manager.notify(11, myNotication);
+
 
 
     }
@@ -449,6 +469,16 @@ public class MainActivity extends AppCompatActivity implements
         builder.setOngoing(false);
         builder.setSubText("");   //API level 16
         builder.setNumber(100);
+
+
+        builder.setLights(Color.BLUE, 500, 500);
+        long[] pattern = {500,500,500,500,500,500,500,500,500};
+        builder.setVibrate(pattern);
+        Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        builder.setSound(alarmSound);
+
+
+
         builder.build();
 
         myNotication = builder.getNotification();
@@ -477,10 +507,22 @@ public class MainActivity extends AppCompatActivity implements
         builder.setOngoing(false);
         builder.setSubText("");   //API level 16
         builder.setNumber(100);
+
+
+        builder.setLights(Color.BLUE, 500, 500);
+        long[] pattern = {500,500,500,500,500,500,500,500,500};
+        builder.setVibrate(pattern);
+        Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        builder.setSound(alarmSound);
+
+
+
         builder.build();
 
         myNotication = builder.getNotification();
         manager.notify(11, myNotication);
+       // Intent in=new Intent(MainActivity.this, in.helpme.helpme.Notification.class);
+        startActivity(intent);
 
 
     }

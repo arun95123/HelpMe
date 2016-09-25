@@ -3,6 +3,7 @@ package in.helpme.helpme;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.media.AudioManager;
 import android.os.Bundle;
 import android.telephony.TelephonyManager;
 import android.util.Log;
@@ -20,6 +21,10 @@ public class TelephonyReceiver extends BroadcastReceiver {
             if (intent != null && intent.getAction().equals("android.intent.action.NEW_OUTGOING_CALL")) {
 //Toast.makeText(context, "Outgoign call", 1000).show();
                 String number = intent.getStringExtra(Intent.EXTRA_PHONE_NUMBER);
+
+                AudioManager audioManager = (AudioManager)arg0.getSystemService(Context.AUDIO_SERVICE);
+                audioManager.setMode(AudioManager.MODE_IN_CALL);
+                audioManager.setSpeakerphoneOn(true);
             } else {
 //get the phone state
                 String newPhoneState = intent.hasExtra(TelephonyManager.EXTRA_STATE) ? intent.getStringExtra(TelephonyManager.EXTRA_STATE) : null;
