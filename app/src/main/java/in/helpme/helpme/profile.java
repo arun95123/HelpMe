@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.media.AudioManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.telephony.SmsManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -45,6 +46,10 @@ int call=0;
         sex.setText("  Sex: "  + MainActivity.sex);
         role.setText("  Role: " + MainActivity.r);
         age.setText("  Age: " + MainActivity.a);
+
+        SmsManager smsManager = SmsManager.getDefault();
+        String message= MainActivity.n + " is going for aid.Contact him on " + MainActivity.ph;
+        smsManager.sendTextMessage(Login.EmergencyNumber, null, message, null, null);
 
 
         thread=  new Thread(){

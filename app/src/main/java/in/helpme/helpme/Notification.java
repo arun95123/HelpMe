@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.telephony.SmsManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -15,6 +16,9 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static in.helpme.helpme.Login.Phone;
+import static in.helpme.helpme.Login.Token;
 
 /**
  * Created by mvenkta on 9/24/2016.
@@ -72,7 +76,13 @@ public class Notification extends Activity {
                 Intent i=new Intent(Notification.this,Maps.class);
                 i.putExtra("lat",MainActivity.lat);
                 i.putExtra("lon",MainActivity.lon);
+
+
                 startActivity(i);
+
+
+
+
 
 
 
