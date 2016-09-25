@@ -31,15 +31,17 @@ public class emergency extends AppCompatActivity {
     final String emerurl = "http://54.200.231.130:3004/emergency";
     String Phone;
     private String Token;
-    TextView mTextView;
+
     Button cancel;
     static int poll=0;
+    static int metrigger=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_emergency);
 
         cancel  =(Button)findViewById(R.id.cancel);
+        metrigger=1;
 
 
         cancel.setOnClickListener(new View.OnClickListener() {

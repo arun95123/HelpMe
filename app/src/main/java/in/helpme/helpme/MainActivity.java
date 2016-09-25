@@ -130,8 +130,10 @@ public class MainActivity extends AppCompatActivity implements
                              emergency_id=temp.getString("emergency_id");
                              lat =temp.getString("lat");
                              lon =temp.getString("long");
-
+                            if(emergency.metrigger==0)
                             Notify();
+                           else
+                                emergency.metrigger=0;
 
 
 
@@ -426,6 +428,7 @@ public class MainActivity extends AppCompatActivity implements
         builder.setSmallIcon(R.drawable.logo);
         builder.setContentIntent(pendingIntent);
         builder.setOngoing(false);
+        builder.setPriority(Notification.PRIORITY_MAX);
         builder.setSubText("will you help him?");   //API level 16
         builder.setNumber(100);
 
@@ -465,6 +468,7 @@ public class MainActivity extends AppCompatActivity implements
         builder.setContentTitle("Emergency Being supressed");
         builder.setContentText("you may choose not ot go");
         builder.setSmallIcon(R.drawable.logo);
+        builder.setPriority(Notification.PRIORITY_MAX);
         builder.setContentIntent(pendingIntent);
         builder.setOngoing(false);
         builder.setSubText("");   //API level 16
@@ -501,6 +505,7 @@ public class MainActivity extends AppCompatActivity implements
         builder.setAutoCancel(false);
         builder.setTicker("Volenteer coming");
         builder.setContentTitle(n);
+        builder.setPriority(Notification.PRIORITY_MAX);
         builder.setContentText(ph);
         builder.setSmallIcon(R.drawable.logo);
         builder.setContentIntent(pendingIntent);
