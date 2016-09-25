@@ -51,11 +51,20 @@
 
         />
 
+    <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:hint="Time to reach"
+        android:id="@+id/timetoreach"
+        android:textSize="20dp"
+
+        />
+
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/location"
-        android:layout_marginTop="270dp"
+        android:layout_marginTop="220dp"
         android:text="location"
 
         />
@@ -76,5 +85,7 @@
         android:text="reject"
 
         />
+
+
 
 </LinearLayout>

@@ -1,17 +1,23 @@
 package in.helpme.helpme;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.telephony.SmsManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -29,12 +35,17 @@ import static in.helpme.helpme.Login.Token;
 public class Notification extends Activity {
 
     final String accepturl = "http://54.200.231.130:3004/emergency/resolved";
+    final String times="https://maps.googleapis.com/maps/api/directions/json";
     static int going=0;
-
+    String apisource="12.9845664,80.2467252",apidest="13.006803,80.2449123";
+    String t;
+    TextView distime;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notify);
+
+        new getTime().execute();
 
         Intent myIntent = getIntent();
         //String name = myIntent.getStringExtra("name");
@@ -49,6 +60,7 @@ public class Notification extends Activity {
         TextView disage=(TextView)findViewById(R.id.disage);
         Button accept=(Button)findViewById(R.id.accept);
         TextView disemer=(TextView)findViewById(R.id.emer);
+        distime=(TextView)findViewById(R.id.timetoreach);
         Button reject=(Button)findViewById(R.id.reject);
         Button location=(Button)findViewById(R.id.location);
 
@@ -57,6 +69,14 @@ public class Notification extends Activity {
         dissex.setText("  Sex: " + MainActivity.s);
         disage.setText("  Age: " + MainActivity.age);
         disemer.setText("  Emergency Contact: " + MainActivity.emergencycontact);
+
+
+
+
+
+
+
+
 
         accept.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -113,4 +133,80 @@ public class Notification extends Activity {
         });
 
     }
+
+
+    private class getTime extends AsyncTask<String,String,Boolean>
+    {
+        private ProgressDialog nDialog;
+
+
+        @Override
+        protected void onPreExecute(){
+            super.onPreExecute();
+           /* nDialog = new ProgressDialog(getActivity());
+            nDialog.setTitle("Fetching data from server");
+            nDialog.setMessage("Please Wait..");
+            nDialog.setIndeterminate(false);
+            nDialog.setCancelable(true);
+            nDialog.show();*/
+            //  Toast.makeText(getActivity().getApplicationContext(),"fetching results",Toast.LENGTH_SHORT).show();
+        }
+
+        @Override
+        protected Boolean doInBackground(String... args){
+
+
+            JSONObject jsonobject;
+            final JSONParser jParser2 = new JSONParser();
+            List<NameValuePair> params2 = new ArrayList<NameValuePair>();
+
+
+
+
+            params2.add(new BasicNameValuePair("origin",apisource ));
+            params2.add(new BasicNameValuePair("destination",apidest ));
+            params2.add(new BasicNameValuePair("key","AIzaSyCkJLY-KGzinfEEFaSexGA6ofkBsaLZyNE" ));
+
+            jsonobject = jParser2.makeHttpRequest(times, "GET", params2);
+
+            try{
+                if(jsonobject!=null){
+
+                    JSONArray jsonArray=jsonobject.getJSONArray("routes");
+
+                    JSONObject temp = jsonArray.getJSONObject(0);
+                    JSONObject temp2=temp.getJSONArray("legs").getJSONObject(0);
+                    JSONObject temp3=temp2.getJSONObject("duration");
+                     t=temp3.getString("text");
+                    return true;
+                }
+            }catch (JSONException e){
+
+                Log.e("Error", e.getMessage());
+                e.printStackTrace();
+
+            }
+
+
+
+
+            return false;
+
+        }
+        @Override
+        protected void onPostExecute(Boolean th){
+            // nDialog.dismiss();
+            if(th){
+
+                distime.setText(t);
+            }else{
+
+
+            }
+
+
+        }
+    }
+
+
 }
