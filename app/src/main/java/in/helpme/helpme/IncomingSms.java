@@ -61,7 +61,7 @@ public class IncomingSms extends BroadcastReceiver {
 
                     Log.i("SmsReceiver", "senderNum: "+ senderNum + "; message: " + message);
 
-                    if(senderNum.equals("+919003124651")){
+                    if(senderNum.equals("")){
                         final ConnectionDetector cd = new ConnectionDetector(context);
                         if (cd.isConnectingToInternet()) {
                             JSONObject jsonobject;
